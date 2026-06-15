@@ -80,11 +80,18 @@
 
         .form-group h3 {
             margin-top: 0;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
             color: var(--sut-orange);
             font-size: 18px;
-            border-bottom: 2px solid #f1ebd9;
+        }
+        
+        .form-group .sub-detail {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 15px;
             padding-bottom: 8px;
+            border-bottom: 2px solid #f1ebd9;
+            display: block;
         }
 
         .score-row {
@@ -143,4 +150,115 @@
             color: white;
             border: none;
             border-radius: 12px;
-            font-size:
+            font-size: 18px;
+            font-family: 'Mitr', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 6px 15px rgba(76,175,80,0.2);
+        }
+
+        .submit-btn:hover {
+            background: #3d8b40;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <span class="badge"><i class="fa-solid fa-star"></i> หน้าลงคะแนนกิจกรรม</span>
+        <h1>SUT Street View Adventure</h1>
+        <p class="description">เลือกคะแนนให้แต่ละกลุ่ม (ทีมแรกได้ 5 คะแนน และลดลงมาตามลำดับ / ทำไม่ได้ตามเวลา = 0 คะแนน)</p>
+    </div>
+
+    <form id="voteForm" onsubmit="submitVotes(event)">
+        <div class="form-group">
+            <h3><i class="fa-solid fa-map-pin"></i> Mission 1: หาจุด Landmark</h3>
+            <span class="sub-detail">เป้าหมาย: อุโมงค์ต้นไม้ (จุดเริ่มต้น: เสาธง)</span>
+            <div id="m1-container"></div>
+        </div>
+
+        <div class="form-group">
+            <h3><i class="fa-solid fa-clock"></i> Mission 2: จำลองการใช้ชีวิต มทส.</h3>
+            <span class="sub-detail">เป้าหมาย: ตึกดิจิทัล → โรงอาหารกาสะลองคำ → อาคารเรียนรวม 1</span>
+            <div id="m2-container"></div>
+        </div>
+
+        <div class="form-group">
+            <h3><i class="fa-solid fa-building"></i> Mission 3: ค้นหาจากเบาะแส</h3>
+            <span class="sub-detail">เป้าหมาย: หอสุรนภา (หอแห้ว)</span>
+            <div id="m3-container"></div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> บันทึกและดูตารางอันดับล่าสุด <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </form>
+</div>
+
+<script>
+    const totalTeams = 5; // แบ่งเป็น 5 กลุ่มตามสไลด์กิจกรรม
+    const urlParams = new URLSearchParams(window.location.search);
+
+    function createScoreRow(missionId, teamIndex) {
+        const row = document.createElement('div');
+        row.className = 'score-row';
+        
+        const label = document.createElement('span');
+        label.className = 'team-label';
+        label.innerText = `กลุ่มที่ ${teamIndex}`;
+        row.appendChild(label);
+
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'score-buttons';
+
+        const savedVal = parseInt(urlParams.get(`${missionId}_g${teamIndex}`)) || 0;
+
+        for (let score = 0; score <= 5; score++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `score-btn ${score === savedVal ? 'active' : ''}`;
+            btn.innerText = score;
+            btn.dataset.mission = missionId;
+            btn.dataset.team = teamIndex;
+            btn.dataset.value = score;
+            
+            btn.onclick = function() {
+                row.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            
+            btnGroup.appendChild(btn);
+        }
+        
+        row.appendChild(btnGroup);
+        return row;
+    }
+
+    for (let i = 1; i <= totalTeams; i++) {
+        document.getElementById('m1-container').appendChild(createScoreRow('m1', i));
+        document.getElementById('m2-container').appendChild(createScoreRow('m2', i));
+        document.getElementById('m3-container').appendChild(createScoreRow('m3', i));
+    }
+
+    function submitVotes(e) {
+        e.preventDefault();
+        const params = new URLSearchParams();
+        const activeButtons = document.querySelectorAll('.score-btn.active');
+        
+        activeButtons.forEach(btn => {
+            params.append(`${btn.dataset.mission}_g${btn.dataset.team}`, btn.dataset.value);
+        });
+
+        window.location.href = 'leaderboard.html?' + params.toString();
+    }
+</script>
+
+</body>
+</html>
