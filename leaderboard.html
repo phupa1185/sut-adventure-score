@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUT Street View Adventure - Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --sut-orange: #FF8C00;
+            --sut-gold: #FFD700;
+            --adventure-green: #4CAF50;
+            --soft-bg: #FFFDF0;
+            --text-dark: #2D3436;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--soft-bg);
+            font-family: 'Mitr', sans-serif;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 700px;
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-top: 10px solid var(--sut-gold);
+            margin: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-dark);
+            font-weight: 500;
+            margin: 10px 0;
+            font-size: 28px;
+        }
+
+        .badge {
+            background: var(--sut-orange);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .podium {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .rank-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-radius: 16px;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border-left: 6px solid #ddd;
+        }
+
+        .rank-1 { background: #FFF9C4; color: #b7791f; border-left-color: #FFD700; transform: scale(1.02); }
+        .rank-2 { background: #F5F5F5; color: #4a5568; border-left-color: #C0C0C0; }
+        .rank-3 { background: #FFE0B2; color: #dd6b20; border-left-color: #CD7F32; }
+        .rank-other { background: #fafafa; color: #718096; font-weight: 500; }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Mitr', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-back { background: #eee; color: #333; }
+        .btn-back:hover { background: #e0e0e0; }
+        .btn-share { background: var(--adventure-green); color: white; }
+        .btn-share:hover { background: #3d8b40; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
