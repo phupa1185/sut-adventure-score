@@ -117,3 +117,97 @@
             position: fixed;
             bottom: 30px;
             left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #222;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 1000;
+            font-size: 14px;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <span class="badge"><i class="fa-solid fa-trophy"></i> สรุปผลคะแนนรวม</span>
+        <h1>อันดับปัจจุบันปัจจุบัน</h1>
+    </div>
+
+    <div class="podium" id="leaderboard-container"></div>
+
+    <div class="btn-group">
+        <button class="btn btn-back" onclick="goBackToVote()">
+            <i class="fa-solid fa-chevron-left"></i> กลับไปแก้ไขคะแนน
+        </button>
+        <button class="btn btn-share" onclick="copyShareLink()">
+            <i class="fa-solid fa-share-nodes"></i> คัดลอกลิงก์แชร์คะแนนนี้
+        </button>
+    </div>
+</div>
+
+<div class="toast" id="toast">🔗 คัดลอกลิงก์ผลรวมคะแนนไปยังคลิปบอร์ดแล้ว!</div>
+
+<script>
+    const totalTeams = 5;
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    function renderLeaderboard() {
+        let scores = [];
+
+        for (let i = 1; i <= totalTeams; i++) {
+            const m1 = parseInt(urlParams.get(`m1_g${i}`)) || 0;
+            const m2 = parseInt(urlParams.get(`m2_g${i}`)) || 0;
+            const m3 = parseInt(urlParams.get(`m3_g${i}`)) || 0;
+            const total = m1 + m2 + m3;
+            scores.push({ name: `กลุ่มที่ ${i}`, score: total });
+        }
+
+        scores.sort((a, b) => b.score - a.score);
+
+        const container = document.getElementById('leaderboard-container');
+        container.innerHTML = '';
+
+        scores.forEach((item, index) => {
+            const card = document.createElement('div');
+            let rankClass = 'rank-other';
+            let prefix = `${index + 1}`;
+
+            if (index === 0) { rankClass = 'rank-1'; prefix = '🏆 อันดับ 1'; }
+            else if (index === 1) { rankClass = 'rank-2'; prefix = '🥈 อันดับ 2'; }
+            else if (index === 2) { rankClass = 'rank-3'; prefix = '🥉 อันดับ 3'; }
+
+            card.className = `rank-card ${rankClass}`;
+            card.innerHTML = `<span>${prefix} : ${item.name}</span> <span>${item.score} คะแนน</span>`;
+            container.appendChild(card);
+        });
+    }
+
+    function goBackToVote() {
+        window.location.href = 'index.html?' + urlParams.toString();
+    }
+
+    function copyShareLink() {
+        const shareUrl = window.location.href;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(shareUrl).then(showToast);
+        } else {
+            prompt("คัดลอกลิงก์ผลคะแนนนี้:", shareUrl);
+        }
+    }
+
+    function showToast() {
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    renderLeaderboard();
+</script>
+
+</body>
+</html>
