@@ -74,4 +74,71 @@
     </form>
 </div>
 
-<script
+<script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJf14BoYEby316wS_BB9Ih7Mpt1L0nT23sRou5Dx1XZdp9BOBrdEjH_i_pnkhiLELM/exec';
+    const totalTeams = 5;
+
+    function createScoreRow(missionId, teamIndex) {
+        const row = document.createElement('div');
+        row.className = 'score-row';
+        row.innerHTML = `<span class="team-label">กลุ่มที่ ${teamIndex}</span>`;
+        const btnGroup = document.createElement('div');
+        btnGroup.className = 'score-buttons';
+
+        for (let score = 0; score <= 5; score++) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `score-btn ${score === 0 ? 'active' : ''}`;
+            btn.innerText = score;
+            btn.dataset.mission = missionId;
+            btn.dataset.team = teamIndex;
+            btn.dataset.value = score;
+            btn.onclick = function() {
+                row.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            btnGroup.appendChild(btn);
+        }
+        row.appendChild(btnGroup);
+        return row;
+    }
+
+    // ลูปสร้างช่องกรอกคะแนนให้กับทุกมิชชั่นและทุกกลุ่ม
+    for (let i = 1; i <= totalTeams; i++) {
+        document.getElementById('m1-container').appendChild(createScoreRow('m1', i));
+        document.getElementById('m2-container').appendChild(createScoreRow('m2', i));
+        document.getElementById('m3-container').appendChild(createScoreRow('m3', i));
+    }
+
+    function submitVotes(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = 'กำลังบันทึกลง Google Sheet...';
+
+        const name = document.getElementById('voterName').value.trim();
+        const activeButtons = document.querySelectorAll('.score-btn.active');
+        let voteData = { voter_name: name, timestamp: new Date().toLocaleString('th-TH') };
+        
+        activeButtons.forEach(btn => {
+            voteData[`${btn.dataset.mission}_g${btn.dataset.team}`] = parseInt(btn.dataset.value);
+        });
+
+        // ยิงข้อมูลแบบ no-cors ไปยัง Google Apps Script
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(voteData)
+        })
+        .then(() => { 
+            window.location.href = 'leaderboard.html'; 
+        })
+        .catch(err => { 
+            console.error(err); 
+            window.location.href = 'leaderboard.html'; 
+        });
+    }
+</script>
+</body>
+</html>
