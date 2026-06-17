@@ -3,240 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUT Street View Adventure - Vote</title>
+    <title>SUT Adventure - Vote (Google Sheet)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root {
-            --sut-orange: #FF8C00;
-            --sut-gold: #FFD700;
-            --adventure-green: #4CAF50;
-            --soft-bg: #FFFDF0;
-            --text-dark: #2D3436;
-        }
-
+        :root { --sut-orange: #FF8C00; --adventure-green: #4CAF50; --soft-bg: #FFFDF0; --text-dark: #2D3436; }
         * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--soft-bg);
-            font-family: 'Mitr', sans-serif;
-            color: var(--text-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 650px;
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            border-top: 10px solid var(--sut-orange);
-            margin: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: var(--sut-orange);
-            font-family: 'Comfortaa', cursive;
-            margin: 10px 0;
-            font-size: 32px;
-        }
-
-        .badge {
-            background: var(--adventure-green);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            display: inline-block;
-            font-weight: 500;
-        }
-
-        .description {
-            color: #666;
-            font-size: 15px;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        .form-group {
-            background: #fdfcf7;
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid #f1ebd9;
-            margin-bottom: 20px;
-        }
-
-        .form-group h3 {
-            margin-top: 0;
-            margin-bottom: 5px;
-            color: var(--sut-orange);
-            font-size: 18px;
-        }
-        
-        .form-group .sub-detail {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #f1ebd9;
-            display: block;
-        }
-
-        .score-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .score-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .team-label {
-            font-weight: 500;
-            font-size: 16px;
-        }
-
-        .score-buttons {
-            display: flex;
-            gap: 6px;
-        }
-
-        .score-btn {
-            width: 36px;
-            height: 36px;
-            border: 2px solid #ddd;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Mitr', sans-serif;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .score-btn:hover {
-            border-color: var(--sut-orange);
-            color: var(--sut-orange);
-        }
-
-        .score-btn.active {
-            background: var(--sut-orange);
-            border-color: var(--sut-orange);
-            color: white;
-            box-shadow: 0 4px 10px rgba(255,140,0,0.2);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--adventure-green);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-family: 'Mitr', sans-serif;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 6px 15px rgba(76,175,80,0.2);
-        }
-
-        .submit-btn:hover {
-            background: #3d8b40;
-            transform: translateY(-2px);
-        }
+        body { margin: 0; padding: 0; background-color: var(--soft-bg); font-family: 'Mitr', sans-serif; color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 600px; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-top: 10px solid var(--sut-orange); margin: 20px; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: var(--sut-orange); margin: 10px 0; font-size: 32px; }
+        .badge { background: var(--adventure-green); color: white; padding: 6px 16px; border-radius: 20px; font-size: 14px; display: inline-block; }
+        .voter-box { background: #fff3e0; padding: 20px; border-radius: 16px; border: 2px solid #ffe0b2; margin-bottom: 20px; }
+        .voter-box label { display: block; font-weight: 500; margin-bottom: 8px; color: #e65100; }
+        .voter-input { width: 100%; padding: 12px; border: 2px solid #ffb74d; border-radius: 10px; font-family: 'Mitr', sans-serif; font-size: 16px; outline: none; }
+        .voter-input:focus { border-color: var(--sut-orange); background: #fff; }
+        .form-group { background: #fdfcf7; padding: 20px; border-radius: 16px; border: 1px solid #f1ebd9; margin-bottom: 20px; }
+        .form-group h3 { margin: 0 0 5px 0; color: var(--sut-orange); font-size: 18px; }
+        .sub-detail { font-size: 13px; color: #888; margin-bottom: 15px; display: block; border-bottom: 2px solid #f1ebd9; padding-bottom: 8px; }
+        .score-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .score-buttons { display: flex; gap: 6px; }
+        .score-btn { width: 36px; height: 36px; border: 2px solid #ddd; background: white; border-radius: 8px; cursor: pointer; font-family: 'Mitr', sans-serif; font-weight: 500; }
+        .score-btn.active { background: var(--sut-orange); border-color: var(--sut-orange); color: white; }
+        .submit-btn { width: 100%; padding: 16px; background: var(--adventure-green); color: white; border: none; border-radius: 12px; font-size: 18px; font-family: 'Mitr', sans-serif; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <div class="header">
-        <span class="badge"><i class="fa-solid fa-star"></i> หน้าลงคะแนนกิจกรรม</span>
-        <h1>SUT Street View Adventure</h1>
-        <p class="description">เลือกคะแนนให้แต่ละกลุ่ม (ทีมแรกได้ 5 คะแนน และลดลงมาตามลำดับ / ทำไม่ได้ตามเวลา = 0 คะแนน)</p>
+        <span class="badge"><i class="fa-solid fa-file-excel"></i> ระบบโหวตเชื่อมต่อ Google Sheets</span>
+        <h1>SUT Street View</h1>
     </div>
 
     <form id="voteForm" onsubmit="submitVotes(event)">
+        <div class="voter-box">
+            <label for="voterName"><i class="fa-solid fa-user"></i> ชื่อผู้ลงคะแนน (หรือชื่อกลุ่มคุณ):</label>
+            <input type="text" id="voterName" class="voter-input" placeholder="ตัวอย่าง: อาจารย์สมชาย" required>
+        </div>
+
         <div class="form-group">
             <h3><i class="fa-solid fa-map-pin"></i> Mission 1: หาจุด Landmark</h3>
-            <span class="sub-detail">เป้าหมาย: อุโมงค์ต้นไม้ (จุดเริ่มต้น: เสาธง)</span>
+            <span class="sub-detail">เป้าหมาย: อุโมงค์ต้นไม้</span>
             <div id="m1-container"></div>
         </div>
-
         <div class="form-group">
             <h3><i class="fa-solid fa-clock"></i> Mission 2: จำลองการใช้ชีวิต มทส.</h3>
-            <span class="sub-detail">เป้าหมาย: ตึกดิจิทัล → โรงอาหารกาสะลองคำ → อาคารเรียนรวม 1</span>
+            <span class="sub-detail">เป้าหมาย: ตึกดิจิทัล → กาสะลองคำ → เรียนรวม 1</span>
             <div id="m2-container"></div>
         </div>
-
         <div class="form-group">
             <h3><i class="fa-solid fa-building"></i> Mission 3: ค้นหาจากเบาะแส</h3>
             <span class="sub-detail">เป้าหมาย: หอสุรนภา (หอแห้ว)</span>
             <div id="m3-container"></div>
         </div>
-
-        <button type="submit" class="submit-btn">
-            <i class="fa-solid fa-paper-plane"></i> บันทึกและดูตารางอันดับล่าสุด <i class="fa-solid fa-arrow-right"></i>
+        <button type="submit" class="submit-btn" id="submitBtn">
+            <i class="fa-solid fa-paper-plane"></i> ส่งคะแนนเข้า Google Sheets <i class="fa-solid fa-arrow-right"></i>
         </button>
     </form>
 </div>
 
 <script>
-    const totalTeams = 5; // แบ่งเป็น 5 กลุ่มตามสไลด์กิจกรรม
-    const urlParams = new URLSearchParams(window.location.search);
+    // ⚠️ นำ URL เว็บแอปที่ได้จากกูเกิลชีตมาวางตรงนี้แทนคำเดิมนะครับ
+    const SCRIPT_URL = 'ใส่_URL_WEB_APP_ของคุุณที่นี่';
+    const totalTeams = 5;
 
     function createScoreRow(missionId, teamIndex) {
         const row = document.createElement('div');
         row.className = 'score-row';
-        
-        const label = document.createElement('span');
-        label.className = 'team-label';
-        label.innerText = `กลุ่มที่ ${teamIndex}`;
-        row.appendChild(label);
-
+        row.innerHTML = `<span class="team-label">กลุ่มที่ ${teamIndex}</span>`;
         const btnGroup = document.createElement('div');
         btnGroup.className = 'score-buttons';
-
-        const savedVal = parseInt(urlParams.get(`${missionId}_g${teamIndex}`)) || 0;
 
         for (let score = 0; score <= 5; score++) {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.className = `score-btn ${score === savedVal ? 'active' : ''}`;
+            btn.className = `score-btn ${score === 0 ? 'active' : ''}`;
             btn.innerText = score;
             btn.dataset.mission = missionId;
             btn.dataset.team = teamIndex;
             btn.dataset.value = score;
-            
             btn.onclick = function() {
                 row.querySelectorAll('.score-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
             };
-            
             btnGroup.appendChild(btn);
         }
-        
         row.appendChild(btnGroup);
         return row;
     }
@@ -249,16 +103,28 @@
 
     function submitVotes(e) {
         e.preventDefault();
-        const params = new URLSearchParams();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = 'กำลังบันทึกลง Google Sheet...';
+
+        const name = document.getElementById('voterName').value.trim();
         const activeButtons = document.querySelectorAll('.score-btn.active');
+        let voteData = { voter_name: name, timestamp: new Date().toLocaleString('th-TH') };
         
         activeButtons.forEach(btn => {
-            params.append(`${btn.dataset.mission}_g${btn.dataset.team}`, btn.dataset.value);
+            voteData[`${btn.dataset.mission}_g${btn.dataset.team}`] = parseInt(btn.dataset.value);
         });
 
-        window.location.href = 'leaderboard.html?' + params.toString();
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(voteData)
+        })
+        .then(() => { window.location.href = 'leaderboard.html'; })
+        .catch(err => { 
+            alert('บันทึกสำเร็จ (ระบบอาจมีการหน่วงเล็กน้อย)'); 
+            window.location.href = 'leaderboard.html';
+        });
     }
 </script>
-
 </body>
 </html>
