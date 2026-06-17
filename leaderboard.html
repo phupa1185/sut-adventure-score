@@ -3,211 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUT Street View Adventure - Leaderboard</title>
+    <title>SUT Adventure - Leaderboard & Sheets</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        :root {
-            --sut-orange: #FF8C00;
-            --sut-gold: #FFD700;
-            --adventure-green: #4CAF50;
-            --soft-bg: #FFFDF0;
-            --text-dark: #2D3436;
-        }
-
+        :root { --sut-orange: #FF8C00; --sut-gold: #FFD700; --adventure-green: #4CAF50; --soft-bg: #FFFDF0; --text-dark: #2D3436; }
         * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--soft-bg);
-            font-family: 'Mitr', sans-serif;
-            color: var(--text-dark);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 700px;
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-            border-top: 10px solid var(--sut-gold);
-            margin: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: var(--text-dark);
-            font-weight: 500;
-            margin: 10px 0;
-            font-size: 28px;
-        }
-
-        .badge {
-            background: var(--sut-orange);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            display: inline-block;
-            font-weight: 500;
-        }
-
-        .podium {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 30px;
-        }
-
-        .rank-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 24px;
-            border-radius: 16px;
-            font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
-            border-left: 6px solid #ddd;
-        }
-
-        .rank-1 { background: #FFF9C4; color: #b7791f; border-left-color: #FFD700; transform: scale(1.02); }
+        body { margin: 0; padding: 0; background-color: var(--soft-bg); font-family: 'Mitr', sans-serif; color: var(--text-dark); padding: 20px 10px; }
+        .app-container { width: 100%; max-width: 800px; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-top: 10px solid var(--sut-gold); margin: 0 auto 30px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { margin: 10px 0; font-size: 28px; }
+        .badge { background: var(--sut-orange); color: white; padding: 6px 16px; border-radius: 20px; font-size: 14px; display: inline-block; }
+        .podium { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+        .rank-card { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-radius: 16px; font-weight: bold; font-size: 18px; border-left: 6px solid #ddd; }
+        .rank-1 { background: #FFF9C4; color: #b7791f; border-left-color: #FFD700; }
         .rank-2 { background: #F5F5F5; color: #4a5568; border-left-color: #C0C0C0; }
         .rank-3 { background: #FFE0B2; color: #dd6b20; border-left-color: #CD7F32; }
-        .rank-other { background: #fafafa; color: #718096; font-weight: 500; }
-
-        .btn-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .btn {
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: 'Mitr', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-back { background: #eee; color: #333; }
-        .btn-back:hover { background: #e0e0e0; }
-        .btn-share { background: var(--adventure-green); color: white; }
-        .btn-share:hover { background: #3d8b40; }
-
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #222;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 30px;
-            opacity: 0;
-            transition: 0.3s;
-            z-index: 1000;
-            font-size: 14px;
-        }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .rank-other { background: #fafafa; color: #718096; }
+        .data-box { background: #fdfdfd; border: 1px solid #e0e0e0; border-radius: 16px; padding: 20px; margin-top: 30px; }
+        .data-title { font-size: 18px; color: var(--text-dark); margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 8px; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 14px; }
+        th { background: #333; color: white; padding: 10px; text-align: center; }
+        td { padding: 10px; border-bottom: 1px solid #eee; text-align: center; }
+        .name-col { text-align: left; font-weight: 500; color: #333; background: #f9f9f9; padding-left: 15px; }
+        .btn { width: 100%; padding: 14px; border: none; background: #eee; color: #333; border-radius: 12px; font-size: 16px; font-family: 'Mitr', sans-serif; cursor: pointer; font-weight: 500; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <div class="header">
-        <span class="badge"><i class="fa-solid fa-trophy"></i> สรุปผลคะแนนรวม</span>
-        <h1>อันดับปัจจุบันปัจจุบัน</h1>
+        <span class="badge"><i class="fa-solid fa-sync fa-spin"></i> ดึงข้อมูลสดจาก Google Sheets</span>
+        <h1>ผลคะแนนรวมกิจกรรม</h1>
+        <div id="vote-count" style="font-size: 14px; color: #888; margin-top: 5px;">กำลังโหลด...</div>
     </div>
 
     <div class="podium" id="leaderboard-container"></div>
 
-    <div class="btn-group">
-        <button class="btn btn-back" onclick="goBackToVote()">
-            <i class="fa-solid fa-chevron-left"></i> กลับไปแก้ไขคะแนน
-        </button>
-        <button class="btn btn-share" onclick="copyShareLink()">
-            <i class="fa-solid fa-share-nodes"></i> คัดลอกลิงก์แชร์คะแนนนี้
-        </button>
+    <div class="data-box">
+        <h3 class="data-title"><i class="fa-solid fa-list-check"></i> คะแนนดิบรายคนในฐานข้อมูล</h3>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align: left; padding-left:15px; width: 180px;">ผู้ลงคะแนน</th>
+                        <th>กลุ่ม 1</th>
+                        <th>กลุ่ม 2</th>
+                        <th>กลุ่ม 3</th>
+                        <th>กลุ่ม 4</th>
+                        <th>กลุ่ม 5</th>
+                    </tr>
+                </thead>
+                <tbody id="raw-data-body">
+                    <tr><td colspan="6" style="color:#999;">กำลังดึงข้อมูล...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <button class="btn" onclick="window.location.href='index.html'">
+        <i class="fa-solid fa-arrow-left"></i> กลับไปหน้าลงคะแนน
+    </button>
 </div>
 
-<div class="toast" id="toast">🔗 คัดลอกลิงก์ผลรวมคะแนนไปยังคลิปบอร์ดแล้ว!</div>
-
 <script>
+    // ⚠️ นำ URL เว็บแอปที่ได้จากกูเกิลชีตมาวางตรงนี้แทนคำเดิมนะครับ
+    const SCRIPT_URL = 'ใส่_URL_WEB_APP_ของคุุณที่นี่';
     const totalTeams = 5;
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    function renderLeaderboard() {
-        let scores = [];
 
-        for (let i = 1; i <= totalTeams; i++) {
-            const m1 = parseInt(urlParams.get(`m1_g${i}`)) || 0;
-            const m2 = parseInt(urlParams.get(`m2_g${i}`)) || 0;
-            const m3 = parseInt(urlParams.get(`m3_g${i}`)) || 0;
-            const total = m1 + m2 + m3;
-            scores.push({ name: `กลุ่มที่ ${i}`, score: total });
-        }
+    function fetchAndRender() {
+        fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                document.getElementById('leaderboard-container').innerHTML = '<div style="text-align:center;color:#999;">ยังไม่มีคะแนนส่งเข้ามา</div>';
+                document.getElementById('raw-data-body').innerHTML = '<tr><td colspan="6" style="color:#999;">ไม่มีข้อมูล</td></tr>';
+                document.getElementById('vote-count').innerText = 'จำนวนผู้ลงคะแนนทั้งหมด: 0 คน';
+                return;
+            }
 
-        scores.sort((a, b) => b.score - a.score);
+            const totalVoters = data.length;
+            document.getElementById('vote-count').innerText = `จำนวนผู้ลงคะแนนทั้งหมด: ${totalVoters} คน`;
 
-        const container = document.getElementById('leaderboard-container');
-        container.innerHTML = '';
+            let teamScores = {};
+            for(let i=1; i<=totalTeams; i++) teamScores[i] = 0;
+            
+            const tableBody = document.getElementById('raw-data-body');
+            tableBody.innerHTML = '';
 
-        scores.forEach((item, index) => {
-            const card = document.createElement('div');
-            let rankClass = 'rank-other';
-            let prefix = `${index + 1}`;
+            data.forEach(userVote => {
+                const voterName = userVote.voter_name || 'ไม่ระบุชื่อ';
+                let rowHtml = `<tr><td class="name-col">${voterName}</td>`;
+                
+                for(let i=1; i<=totalTeams; i++) {
+                    const m1 = parseInt(userVote[`m1_g${i}`]) || 0;
+                    const m2 = parseInt(userVote[`m2_g${i}`]) || 0;
+                    const m3 = parseInt(userVote[`m3_g${i}`]) || 0;
+                    const userTotalForTeam = m1 + m2 + m3;
+                    
+                    teamScores[i] += userTotalForTeam;
+                    rowHtml += `<td>${userTotalForTeam} <small style="color:#999;">(${m1}+${m2}+${m3})</small></td>`;
+                }
+                rowHtml += `</tr>`;
+                tableBody.insertAdjacentHTML('beforeend', rowHtml);
+            });
 
-            if (index === 0) { rankClass = 'rank-1'; prefix = '🏆 อันดับ 1'; }
-            else if (index === 1) { rankClass = 'rank-2'; prefix = '🥈 อันดับ 2'; }
-            else if (index === 2) { rankClass = 'rank-3'; prefix = '🥉 อันดับ 3'; }
+            let finalStandings = [];
+            for(let i=1; i<=totalTeams; i++) {
+                const averageScore = (teamScores[i] / totalVoters).toFixed(2);
+                finalStandings.push({ name: `กลุ่มที่ ${i}`, score: parseFloat(averageScore) });
+            }
 
-            card.className = `rank-card ${rankClass}`;
-            card.innerHTML = `<span>${prefix} : ${item.name}</span> <span>${item.score} คะแนน</span>`;
-            container.appendChild(card);
+            finalStandings.sort((a, b) => b.score - a.score);
+
+            const container = document.getElementById('leaderboard-container');
+            container.innerHTML = '';
+
+            finalStandings.forEach((item, index) => {
+                const card = document.createElement('div');
+                let rankClass = 'rank-other';
+                let prefix = `${index + 1}`;
+
+                if (index === 0) { rankClass = 'rank-1'; prefix = '🏆 อันดับ 1'; }
+                else if (index === 1) { rankClass = 'rank-2'; prefix = '🥈 อันดับ 2'; }
+                else if (index === 2) { rankClass = 'rank-3'; prefix = '🥉 อันดับ 3'; }
+
+                card.className = `rank-card ${rankClass}`;
+                card.innerHTML = `<span>${prefix} : ${item.name}</span> <span>${item.score} / 15 คะแนน</span>`;
+                container.appendChild(card);
+            });
+        })
+        .catch(err => {
+            console.error(err);
         });
     }
 
-    function goBackToVote() {
-        window.location.href = 'index.html?' + urlParams.toString();
-    }
-
-    function copyShareLink() {
-        const shareUrl = window.location.href;
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(shareUrl).then(showToast);
-        } else {
-            prompt("คัดลอกลิงก์ผลคะแนนนี้:", shareUrl);
-        }
-    }
-
-    function showToast() {
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => { toast.classList.remove('show'); }, 3000);
-    }
-
-    renderLeaderboard();
+    fetchAndRender();
+    setInterval(fetchAndRender, 6000); // แอบรีเฟรชอัปเดตข้อมูลจากชีตทุกๆ 6 วินาทีอัตโนมัติ
 </script>
-
 </body>
 </html>
