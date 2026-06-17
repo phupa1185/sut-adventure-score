@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUT Adventure - Leaderboard & Sheets</title>
+    <title>SUT Adventure - Leaderboard & Sheets (Admin Only)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500&display=swap" rel="stylesheet">
@@ -12,6 +12,10 @@
         :root { --sut-orange: #FF8C00; --sut-gold: #FFD700; --adventure-green: #4CAF50; --soft-bg: #FFFDF0; --text-dark: #2D3436; }
         * { box-sizing: border-box; }
         body { margin: 0; padding: 0; background-color: var(--soft-bg); font-family: 'Mitr', sans-serif; color: var(--text-dark); padding: 20px 10px; }
+        
+        /* 🔒 ซ่อนเนื้อหาทั้งหมดไว้เป็นค่าเริ่มต้นจนกว่าจะใส่รหัสผ่านถูก */
+        #admin-content { display: none; }
+        
         .app-container { width: 100%; max-width: 800px; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-top: 10px solid var(--sut-gold); margin: 0 auto 30px; }
         .header { text-align: center; margin-bottom: 30px; }
         .header h1 { margin: 10px 0; font-size: 28px; }
@@ -34,9 +38,9 @@
 </head>
 <body>
 
-<div class="app-container">
+<div id="admin-content" class="app-container">
     <div class="header">
-        <span class="badge"><i class="fa-solid fa-sync fa-spin"></i> ดึงข้อมูลสดจาก Google Sheets</span>
+        <span class="badge"><i class="fa-solid fa-lock"></i> หน้าแผงควบคุมแอดมิน (Admin Panel)</span>
         <h1>ผลคะแนนรวมกิจกรรม</h1>
         <div id="vote-count" style="font-size: 14px; color: #888; margin-top: 5px;">กำลังโหลด...</div>
     </div>
@@ -70,7 +74,25 @@
 </div>
 
 <script>
-    // ⚠️ นำ URL เว็บแอปที่ได้จากกูเกิลชีตมาวางตรงนี้แทนคำเดิมนะครับ
+    // 🔑 1. กำหนดรหัสผ่านแอดมินตรงนี้ (สามารถเปลี่ยนคำในเครื่องหมายคำพูดเป็นรหัสที่คุณชอบได้เลย)
+    const ADMIN_PASSWORD = "sutadmin2026"; 
+
+    // 🕵️ ระบบตรวจสอบตัวตนแอดมินก่อนทำงาน
+    function checkAdminAccess() {
+        const passwordInput = prompt("🔒 หน้านี้สำหรับ Admin เท่านั้น กรุณากรอกรหัสผ่านเพื่อเข้าใช้งาน:");
+        
+        if (passwordInput === ADMIN_PASSWORD) {
+            // ถ้ารหัสถูกต้อง ให้แสดงผลหน้าจอและดึงข้อมูลทันที
+            document.getElementById('admin-content').style.display = 'block';
+            fetchAndRender();
+            setInterval(fetchAndRender, 6000); 
+        } else {
+            // ถ้ารหัสผิด แจ้งเตือนแล้วเด้งหนีกลับไปหน้าลงคะแนนทันที
+            alert("❌ รหัสผ่านไม่ถูกต้อง! คุณไม่มีสิทธิ์เข้าถึงหน้านี้");
+            window.location.href = 'index.html';
+        }
+    }
+
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJf14BoYEby316wS_BB9Ih7Mpt1L0nT23sRou5Dx1XZdp9BOBrdEjH_i_pnkhiLELM/exec';
     const totalTeams = 5;
 
@@ -136,13 +158,11 @@
                 container.appendChild(card);
             });
         })
-        .catch(err => {
-            console.error(err);
-        });
+        .catch(err => { console.error(err); });
     }
 
-    fetchAndRender();
-    setInterval(fetchAndRender, 6000); // แอบรีเฟรชอัปเดตข้อมูลจากชีตทุกๆ 6 วินาทีอัตโนมัติ
+    // เรียกให้ทำงานทันทีเพื่อบล็อกหน้าจอ
+    checkAdminAccess();
 </script>
 </body>
 </html>
